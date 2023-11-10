@@ -1,14 +1,12 @@
 <template>
-    <div class="px-2 mb-2 w-full flex justify-end">
-        <div class="w-full max-w-xs">
-            <Datepicker
-                :dark="isDarkMode"
-                range
-                :utc="'preserve'"
-                :enableTimePicker="false"
-                @update:modelValue="emitValue"
-                :model-value="modelValue"></Datepicker>
-        </div>
+    <div class="w-full max-w-xs">
+        <Datepicker
+            :dark="isDarkMode"
+            range
+            :utc="'preserve'"
+            :enableTimePicker="false"
+            @update:modelValue="emitValue"
+            :model-value="modelValue"></Datepicker>
     </div>
 </template>
 <script>

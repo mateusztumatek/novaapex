@@ -25,13 +25,15 @@ abstract class Novaapex extends Card
         $request = app()->make(NovaRequest::class);
         $this->withMeta([
             'date_picker_available' => $this->date_picker_available,
-            'series' => $this->series($request, $this->getDateToSeries()),
+            'series' => $this->series($request, $this->getDateToSeries(),  $this->getGroupOption()),
             'options' => $this->options($request),
             'darkModeOptions' => (method_exists($this, 'darkModeOptions'))
                     ? array_merge($this->options($request), $this->darkModeOptions())
                     : null,
             'type' => $this->type($request),
             'dateRange' => (method_exists($this, 'defaultDateRange'))? $this->defaultDateRange($request) : null,
+            'defaultGroupOption' => (method_exists($this, 'defaultGroupOption'))? $this->defaultGroupOption($request) : null,
+            'groupOptions' => (method_exists($this, 'groupOptions'))? $this->groupOptions($request) : null,
             'key' => get_class($this)
         ]);
     }
@@ -46,7 +48,7 @@ abstract class Novaapex extends Card
         return 'novaapex';
     }
 
-    abstract public function series(NovaRequest $request, array $dateRange = []) : array;
+    abstract public function series(NovaRequest $request, array $dateRange = [], $groupOption = null) : array;
 
     abstract public function options(NovaRequest $request) : array;
 
@@ -55,5 +57,14 @@ abstract class Novaapex extends Card
     protected function getDateToSeries(){
         if(!method_exists($this, 'defaultDateRange')) return [];
         return request()->date ?? $this->defaultDateRange(app()->make(NovaRequest::class)) ?? [];
+    }
+
+    /**
+     * @return string|null
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    protected function getGroupOption() : null | string{
+        if(!method_exists($this, 'defaultGroupOption')) return null;
+        return request()->groupOption ?? $this->defaultGroupOption(app()->make(NovaRequest::class));
     }
 }

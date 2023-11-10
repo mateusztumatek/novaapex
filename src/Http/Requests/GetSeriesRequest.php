@@ -14,7 +14,8 @@ class GetSeriesRequest extends FormRequest {
             'date' => ['array'],
             'date[0]' => ['string', 'datetime'],
             'date[1]' => ['string', 'datetime'],
-            'key' => ['required', 'string']
+            'key' => ['required', 'string'],
+            'groupOption' => 'string'
         ];
     }
 
